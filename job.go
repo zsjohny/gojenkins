@@ -419,7 +419,8 @@ func (j *Job) HasQueuedBuild() {
 	panic("Not Implemented yet")
 }
 
-func (j *Job) InvokeSimple(ctx context.Context, params map[string]string) (int64, error) {
+// InvokeSimple https://www.jenkins.io/doc/book/pipeline/syntax/#parameters
+func (j *Job) InvokeSimple(ctx context.Context, params map[string]string, cParams map[string][]string) (int64, error) {
 	isQueued, err := j.IsQueued(ctx)
 	if err != nil {
 		return 0, err
@@ -440,6 +441,11 @@ func (j *Job) InvokeSimple(ctx context.Context, params map[string]string) (int64
 	data := url.Values{}
 	for k, v := range params {
 		data.Set(k, v)
+	}
+	for k, v := range cParams {
+		for _, vv := range v {
+			data.Add(k, vv)
+		}
 	}
 	resp, err := j.Jenkins.Requester.Post(ctx, j.Base+endpoint, bytes.NewBufferString(data.Encode()), nil, nil)
 	if err != nil {
