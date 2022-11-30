@@ -272,9 +272,9 @@ func (j *Jenkins) GetJobObj(ctx context.Context, name string) *Job {
 // Invoke a job.
 // First parameter job name, second parameter is optional Build parameters.
 // Returns queue id
-func (j *Jenkins) BuildJob(ctx context.Context, name string, params map[string]string) (int64, error) {
+func (j *Jenkins) BuildJob(ctx context.Context, name string, params map[string]string, cParam map[string][]string) (int64, error) {
 	job := j.GetJobObj(ctx, name)
-	return job.InvokeSimple(ctx, params)
+	return job.InvokeSimple(ctx, params, cParam)
 }
 
 // A task in queue will be assigned a build number in a job after a few seconds.
