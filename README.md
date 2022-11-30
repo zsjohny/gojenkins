@@ -22,7 +22,7 @@ These are some of the features that are currently implemented:
 
 ## Installation
 
-    go get github.com/bndr/gojenkins
+    go get github.com/zsjohny/gojenkins
 
 ## CLI
 
